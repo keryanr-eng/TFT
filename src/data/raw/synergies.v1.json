@@ -1,0 +1,202 @@
+﻿[
+    {
+        "tiers":  "2 / 3",
+        "tier2Effect":  "Les sorts repoussent brièvement la cible",
+        "tier3Effect":  "Début de combat : petite vague qui ralentit les ennemis proches",
+        "name":  "Aquatiques",
+        "gameplayIdentity":  "Contrôle / tempo",
+        "type":  "Famille",
+        "status":  "V1",
+        "tier1Effect":  "Attaques appliquent 20% ralentissement pendant 2s"
+    },
+    {
+        "tiers":  "2 / 3",
+        "tier2Effect":  "Les toiles immobilisent 1s la première cible touchée",
+        "tier3Effect":  "Les zones de toile restent 4s au sol",
+        "name":  "Arachnides",
+        "gameplayIdentity":  "Contrôle du terrain",
+        "type":  "Famille",
+        "status":  "V1",
+        "tier1Effect":  "Première attaque pose une toile ralentissante"
+    },
+    {
+        "tiers":  "2 / 3",
+        "tier2Effect":  "Sur cible déjà focus : +30% dégâts",
+        "tier3Effect":  "Les cibles sous 20% PV sont exécutées par les canidés",
+        "name":  "Canidés",
+        "gameplayIdentity":  "Meute coordonnée",
+        "type":  "Famille",
+        "status":  "V1",
+        "tier1Effect":  "Les alliés canidés focus la même cible : +15% dégâts"
+    },
+    {
+        "tiers":  "2 / 3",
+        "tier2Effect":  "La première attaque après déplacement étourdit 0,75s",
+        "tier3Effect":  "Début de combat : petite charge vers l’ennemi le plus proche",
+        "name":  "Équidés",
+        "gameplayIdentity":  "Engage / percée",
+        "type":  "Famille",
+        "status":  "V1",
+        "tier1Effect":  "+25% vitesse de déplacement"
+    },
+    {
+        "tiers":  "2 / 3",
+        "tier2Effect":  "Après un kill, bond sur une nouvelle cible",
+        "tier3Effect":  "+40% dégâts sur ennemis sous 35% PV",
+        "name":  "Félins",
+        "gameplayIdentity":  "Burst / chasse",
+        "type":  "Famille",
+        "status":  "V1",
+        "tier1Effect":  "+20% chance de critique"
+    },
+    {
+        "tiers":  "2 / 3",
+        "tier2Effect":  "Toutes les 4 attaques, invoque un mini-insecte renforcé",
+        "tier3Effect":  "Les invocations gagnent 40% des stats du porteur",
+        "name":  "Insectes",
+        "gameplayIdentity":  "Nuée / surnombre",
+        "type":  "Famille",
+        "status":  "V1",
+        "tier1Effect":  "Toutes les 5 attaques, invoque un mini-insecte"
+    },
+    {
+        "tiers":  "2 / 3",
+        "tier2Effect":  "Quand un ennemi s’approche, recule d’une case si possible",
+        "tier3Effect":  "Après repositionnement, gagne 30% vitesse d’attaque pendant 3s",
+        "name":  "Oiseaux",
+        "gameplayIdentity":  "Harcèlement / kiting",
+        "type":  "Famille",
+        "status":  "V1",
+        "tier1Effect":  "+1 portée"
+    },
+    {
+        "tiers":  "2 / 3",
+        "tier2Effect":  "Régénère 2% PV max par seconde sous 50% PV",
+        "tier3Effect":  "Tient 1,5s de plus avant de mourir une fois par combat",
+        "name":  "Porcins",
+        "gameplayIdentity":  "Frontline sale / tank",
+        "type":  "Famille",
+        "status":  "V1",
+        "tier1Effect":  "+15% PV max"
+    },
+    {
+        "tiers":  "2 / 3",
+        "tier2Effect":  "Le poison peut se cumuler 2 fois",
+        "tier3Effect":  "À la mort, explose et propage le poison autour",
+        "name":  "Reptiles",
+        "gameplayIdentity":  "Dégâts sur durée",
+        "type":  "Famille",
+        "status":  "V1",
+        "tier1Effect":  "Les attaques appliquent poison pendant 3s"
+    },
+    {
+        "tiers":  "2 / 3",
+        "tier2Effect":  "À la mort, invoque 2 rats",
+        "tier3Effect":  "Les rats héritent de 45% des stats du porteur",
+        "name":  "Rongeurs",
+        "gameplayIdentity":  "Infestation / tempo",
+        "type":  "Famille",
+        "status":  "V1",
+        "tier1Effect":  "À la mort, invoque 1 rat"
+    },
+    {
+        "tiers":  "2 / 3 / 4",
+        "tier2Effect":  "L’infection se propage à un ennemi proche à la mort",
+        "tier3Effect":  "Les cibles infectées infligent moins de soins reçus",
+        "name":  "Contagieux",
+        "gameplayIdentity":  "Poison propagé",
+        "type":  "Trait",
+        "status":  "V1",
+        "tier1Effect":  "Les attaques appliquent une infection légère"
+    },
+    {
+        "tiers":  "2 / 3 / 4",
+        "tier2Effect":  "Bonus porté à +10% par mort proche",
+        "tier3Effect":  "Chaque mort proche soigne aussi 4% PV max",
+        "name":  "Charognard",
+        "gameplayIdentity":  "Snowball",
+        "type":  "Trait",
+        "status":  "V1",
+        "tier1Effect":  "Quand une unité meurt près de lui : +6% dégâts jusqu’à fin du combat"
+    },
+    {
+        "tiers":  "2 / 3 / 4",
+        "tier2Effect":  "Les stacks montent à +5% par attaque",
+        "tier3Effect":  "Cap de stacks augmenté et reset plus lent",
+        "name":  "Stackeur",
+        "gameplayIdentity":  "Scaling en combat",
+        "type":  "Trait",
+        "status":  "V1",
+        "tier1Effect":  "Attaquer la même cible donne +3% dégâts cumulés"
+    },
+    {
+        "tiers":  "2 / 3 / 4",
+        "tier2Effect":  "Le premier impact étourdit 0,75s",
+        "tier3Effect":  "Le premier impact frappe aussi les cases adjacentes",
+        "name":  "Chargeur",
+        "gameplayIdentity":  "Initiation",
+        "type":  "Trait",
+        "status":  "V1",
+        "tier1Effect":  "Premier déplacement vers une cible repousse"
+    },
+    {
+        "tiers":  "2 / 3 / 4",
+        "tier2Effect":  "Les kills rendent 8 mana",
+        "tier3Effect":  "Les kills rendent aussi 10% PV max",
+        "name":  "Carnivore",
+        "gameplayIdentity":  "Finisher",
+        "type":  "Trait",
+        "status":  "V1",
+        "tier1Effect":  "+15% dégâts sur ennemis sous 50% PV"
+    },
+    {
+        "tiers":  "2 / 3 / 4",
+        "tier2Effect":  "Régénère 1,5% PV max par seconde hors focus",
+        "tier3Effect":  "Les soins reçus sont amplifiés de 25%",
+        "name":  "Herbivore",
+        "gameplayIdentity":  "Endurance / sustain",
+        "type":  "Trait",
+        "status":  "V1",
+        "tier1Effect":  "+10% PV max"
+    },
+    {
+        "tiers":  "2 / 3 / 4",
+        "tier2Effect":  "12% omnivamp",
+        "tier3Effect":  "Au kill, fait éclore un parasite allié faible",
+        "name":  "Parasite",
+        "gameplayIdentity":  "Vol de vie / reproduction",
+        "type":  "Trait",
+        "status":  "V1",
+        "tier1Effect":  "8% omnivamp"
+    },
+    {
+        "tiers":  "2 / 3 / 4",
+        "tier2Effect":  "+35% vitesse d’attaque",
+        "tier3Effect":  "Attaque bonus occasionnelle",
+        "name":  "Véloce",
+        "gameplayIdentity":  "DPS rapide",
+        "type":  "Trait",
+        "status":  "V1",
+        "tier1Effect":  "+20% vitesse d’attaque"
+    },
+    {
+        "tiers":  "2 / 3 / 4",
+        "tier2Effect":  "+20% réduction des dégâts",
+        "tier3Effect":  "Devient brièvement inébranlable au début du combat",
+        "name":  "Lent",
+        "gameplayIdentity":  "Tank lourd",
+        "type":  "Trait",
+        "status":  "V1",
+        "tier1Effect":  "+12% réduction des dégâts"
+    },
+    {
+        "tiers":  "2 / 3 / 4",
+        "tier2Effect":  "+10 résistance magique à l’équipe",
+        "tier3Effect":  "Premier sort lancé gagne une valeur bonus",
+        "name":  "Mystique",
+        "gameplayIdentity":  "Caster / support magique",
+        "type":  "Trait",
+        "status":  "V1",
+        "tier1Effect":  "+4 mana par seconde"
+    }
+]

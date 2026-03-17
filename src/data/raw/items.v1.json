@@ -1,0 +1,178 @@
+﻿[
+    {
+        "component1":  "Os",
+        "item":  "Crocs d’Alpha",
+        "component2":  "Os",
+        "baseStat":  "+10% AD",
+        "simpleEffect":  "Aucun effet bonus",
+        "stats":  "+25% AD",
+        "notes":  "Composant offensif physique",
+        "priority":  "Haute",
+        "component":  "Os"
+    },
+    {
+        "component1":  "Poudre",
+        "item":  "Gemme occulte",
+        "component2":  "Poudre",
+        "baseStat":  "+10% AP",
+        "simpleEffect":  "Aucun effet bonus",
+        "stats":  "+25% AP",
+        "notes":  "Composant magique",
+        "priority":  "Haute",
+        "component":  "Poudre"
+    },
+    {
+        "component1":  "Plume",
+        "item":  "Éventail sauvage",
+        "component2":  "Plume",
+        "baseStat":  "+10% vitesse d’attaque",
+        "simpleEffect":  "Aucun effet bonus",
+        "stats":  "+25% vitesse d’attaque",
+        "notes":  "Composant tempo / kiting",
+        "priority":  "Haute",
+        "component":  "Plume"
+    },
+    {
+        "component1":  "Steak",
+        "item":  "Couenne titanesque",
+        "component2":  "Steak",
+        "baseStat":  "+10% PV",
+        "simpleEffect":  "Aucun effet bonus",
+        "stats":  "+25% PV",
+        "notes":  "Composant survie",
+        "priority":  "Haute",
+        "component":  "Steak"
+    },
+    {
+        "component1":  "Dent",
+        "item":  "Œil du prédateur",
+        "component2":  "Dent",
+        "baseStat":  "+10% critique",
+        "simpleEffect":  "Aucun effet bonus",
+        "stats":  "+25% critique",
+        "notes":  "Composant burst",
+        "priority":  "Moyenne",
+        "component":  "Dent"
+    },
+    {
+        "component1":  "Eau",
+        "item":  "Source vive",
+        "component2":  "Eau",
+        "baseStat":  "+10 mana initial",
+        "simpleEffect":  "Aucun effet bonus",
+        "stats":  "+20 mana initial",
+        "notes":  "Composant cast / mana",
+        "priority":  "Moyenne",
+        "component":  "Eau"
+    },
+    {
+        "component1":  "Cuir",
+        "item":  "Carapace brute",
+        "component2":  "Cuir",
+        "baseStat":  "+10 armure",
+        "simpleEffect":  "Aucun effet bonus",
+        "stats":  "+25 armure",
+        "notes":  "Composant tank physique",
+        "priority":  "Haute",
+        "component":  "Cuir"
+    },
+    {
+        "component1":  "Écaille",
+        "item":  "Mue lunaire",
+        "component2":  "Écaille",
+        "baseStat":  "+10 résistance magique",
+        "simpleEffect":  "Aucun effet bonus",
+        "stats":  "+25 résistance magique",
+        "notes":  "Composant tank magique",
+        "priority":  "Moyenne",
+        "component":  "Écaille"
+    },
+    {
+        "component1":  "Os",
+        "item":  "Boomerang",
+        "component2":  "Plume",
+        "baseStat":  "",
+        "simpleEffect":  "Les attaques touchent une cible adjacente toutes les 3 attaques",
+        "stats":  "+12% AD +12% AS",
+        "notes":  "",
+        "priority":  "Haute",
+        "component":  ""
+    },
+    {
+        "component1":  "Os",
+        "item":  "Mâchoire",
+        "component2":  "Dent",
+        "baseStat":  "",
+        "simpleEffect":  "Les critiques donnent +5% AD pour le combat",
+        "stats":  "+12% AD +12% critique",
+        "notes":  "",
+        "priority":  "Haute",
+        "component":  ""
+    },
+    {
+        "component1":  "Os",
+        "item":  "Matraque",
+        "component2":  "Cuir",
+        "baseStat":  "",
+        "simpleEffect":  "La 3e attaque étourdit 0,75s",
+        "stats":  "+12% AD +12 armure",
+        "notes":  "",
+        "priority":  "Haute",
+        "component":  ""
+    },
+    {
+        "component1":  "Poudre",
+        "item":  "Émail",
+        "component2":  "Dent",
+        "baseStat":  "",
+        "simpleEffect":  "Les sorts peuvent critiquer",
+        "stats":  "+12% AP +12% critique",
+        "notes":  "",
+        "priority":  "Haute",
+        "component":  ""
+    },
+    {
+        "component1":  "Poudre",
+        "item":  "Médicaments",
+        "component2":  "Eau",
+        "baseStat":  "",
+        "simpleEffect":  "Après lancement de sort, récupère 10 mana",
+        "stats":  "+12% AP +10 mana initial",
+        "notes":  "",
+        "priority":  "Haute",
+        "component":  ""
+    },
+    {
+        "component1":  "Poudre",
+        "item":  "Shrapnel écaillé",
+        "component2":  "Écaille",
+        "baseStat":  "",
+        "simpleEffect":  "Les sorts réduisent la RM de la cible",
+        "stats":  "+12% AP +12 RM",
+        "notes":  "",
+        "priority":  "Moyenne",
+        "component":  ""
+    },
+    {
+        "component1":  "Plume",
+        "item":  "Shuriken",
+        "component2":  "Dent",
+        "baseStat":  "",
+        "simpleEffect":  "Une attaque bonus occasionnelle",
+        "stats":  "+12% AS +12% critique",
+        "notes":  "",
+        "priority":  "Moyenne",
+        "component":  ""
+    },
+    {
+        "component1":  "Steak",
+        "item":  "Harnais de boue",
+        "component2":  "Cuir",
+        "baseStat":  "",
+        "simpleEffect":  "Au début du combat, gagne un petit bouclier",
+        "stats":  "+12% PV +12 armure",
+        "notes":  "",
+        "priority":  "Haute",
+        "component":  ""
+    }
+]

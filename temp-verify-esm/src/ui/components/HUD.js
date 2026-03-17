@@ -1,0 +1,4 @@
+import { jsxs as _jsxs, jsx as _jsx } from "react/jsx-runtime";
+export function HUD({ player, round }) {
+    return (_jsxs("section", { className: "flex items-center justify-between rounded-[1.2rem] border border-black/10 bg-white/60 px-3 py-2 shadow-sm backdrop-blur", children: [_jsxs("div", { className: "flex items-center gap-2", children: [_jsxs("span", { className: "rounded-full bg-coral/14 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-coral", children: ["HP ", player.health] }), _jsxs("span", { className: "rounded-full bg-ink/8 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-ink", children: ["Round ", round.stageLabel] })] }), _jsx("span", { className: "text-[10px] font-semibold uppercase tracking-[0.22em] text-ink/42", children: round.kind })] }));
+}

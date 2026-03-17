@@ -1,0 +1,12 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import clsx from "clsx";
+const phaseLabels = {
+    bootstrap: "Chargement",
+    prep: "Preparation",
+    combat: "Combat",
+    resolution: "Resultat",
+    gameOver: "Fin de partie",
+};
+export function RoundSidebar({ phase, round, opponentLabel, livingBots, players }) {
+    return (_jsxs("section", { className: "rounded-[1.45rem] border border-black/10 bg-white/66 p-3 shadow-card backdrop-blur", children: [_jsxs("div", { className: "flex items-start justify-between gap-3", children: [_jsxs("div", { className: "min-w-0", children: [_jsx("p", { className: "text-[9px] font-semibold uppercase tracking-[0.2em] text-ink/40", children: "Round" }), _jsx("h2", { className: "mt-1 truncate font-display text-lg leading-none text-ink", children: opponentLabel }), _jsx("p", { className: "mt-1 text-[10px] uppercase tracking-[0.16em] text-ink/46", children: phaseLabels[phase] })] }), _jsx("span", { className: "rounded-full bg-lagoon/15 px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.16em] text-lagoon", children: round.stageLabel })] }), _jsxs("div", { className: "mt-3 grid grid-cols-2 gap-2 text-[11px]", children: [_jsxs("div", { className: "rounded-[0.95rem] bg-shell/82 px-2.5 py-2", children: [_jsx("p", { className: "uppercase tracking-[0.14em] text-ink/42", children: "Degats" }), _jsx("p", { className: "mt-1 font-display text-base text-ink", children: round.damageBase })] }), _jsxs("div", { className: "rounded-[0.95rem] bg-shell/82 px-2.5 py-2", children: [_jsx("p", { className: "uppercase tracking-[0.14em] text-ink/42", children: "Bots" }), _jsx("p", { className: "mt-1 font-display text-base text-ink", children: livingBots })] })] }), _jsxs("div", { className: "mt-3", children: [_jsx("p", { className: "mb-2 text-[9px] font-semibold uppercase tracking-[0.18em] text-ink/40", children: "Lobby" }), _jsx("div", { className: "space-y-1", children: players.map((player) => (_jsxs("div", { className: clsx("flex items-center justify-between rounded-[0.85rem] px-2.5 py-1.5 text-[10px]", player.isHuman ? "bg-lagoon/10" : "bg-white/62"), children: [_jsx("span", { className: "truncate font-semibold text-ink/78", children: player.name }), _jsxs("span", { className: "flex items-center gap-1.5 font-display text-sm text-ink", children: [_jsx("span", { className: "text-coral", children: "\u2764" }), _jsx("span", { className: clsx(player.health <= 0 && "text-ink/35 line-through"), children: player.health })] })] }, player.id))) })] })] }));
+}

@@ -1,0 +1,77 @@
+[
+    {
+        "reason": "Permet un vrai jeu jouable sans backend ni netcode",
+        "selectedValue": "Solo PvE avec 1 humain + 7 bots",
+        "decision": "Mode"
+    },
+    {
+        "reason": "Plus simple à produire et déployer",
+        "selectedValue": "Web desktop",
+        "decision": "Plateforme"
+    },
+    {
+        "reason": "Accès immédiat via URL",
+        "selectedValue": "GitHub Pages",
+        "decision": "Déploiement"
+    },
+    {
+        "reason": "Donne une identité forte même avec peu d’assets",
+        "selectedValue": "Cartoon marqué, fun, décalé, absurde",
+        "decision": "Style visuel"
+    },
+    {
+        "reason": "Lisibilité et sensation TFT/autobattler",
+        "selectedValue": "Automatique avec barres HP + mana en temps réel",
+        "decision": "Combat"
+    },
+    {
+        "reason": "Base complète du genre",
+        "selectedValue": "Shop + bench + board + éco + XP + synergies + items + rounds PvE/bots",
+        "decision": "Boucle de jeu"
+    },
+    {
+        "reason": "Évite de casser le scope",
+        "selectedValue": "Non en V1",
+        "decision": "Multijoueur"
+    },
+    {
+        "reason": "Trop coûteux en équilibrage et UI",
+        "selectedValue": "Non en V1",
+        "decision": "Augments"
+    },
+    {
+        "reason": "Peut venir plus tard",
+        "selectedValue": "Non en V1",
+        "decision": "Carrousel"
+    },
+    {
+        "reason": "Simulation locale suffisante",
+        "selectedValue": "Non en V1",
+        "decision": "Backend"
+    },
+    {
+        "reason": "Assez pour des compos variées sans exploser la complexité",
+        "selectedValue": "30 unités",
+        "decision": "Taille du roster"
+    },
+    {
+        "reason": "Identité du jeu",
+        "selectedValue": "10 familles animales",
+        "decision": "Familles"
+    },
+    {
+        "reason": "Bonne profondeur avec règles lisibles",
+        "selectedValue": "10 traits standardisés",
+        "decision": "Traits"
+    },
+    {
+        "reason": "Suffisant pour un V1 agréable",
+        "selectedValue": "8 composants / 16 recettes prioritaires",
+        "decision": "Items"
+    },
+    {
+        "reason": "Facilite les itérations avec Codex",
+        "selectedValue": "Données séparées du moteur et de l’UI",
+        "decision": "Architecture"
+    }
+]

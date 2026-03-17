@@ -1,0 +1,19 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "noEmit": false,
+    "jsx": "preserve"
+  },
+  "include": [
+    "scripts/verify-items.ts",
+    "src/data/**/*.ts",
+    "src/game/**/*.ts",
+    "src/systems/**/*.ts",
+    "src/engine/**/*.ts",
+    "src/utils/**/*.ts",
+    "src/types/**/*.ts"
+  ]
+}
