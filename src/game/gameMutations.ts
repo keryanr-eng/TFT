@@ -1,7 +1,7 @@
 import { unitById } from "../data/unitData";
 import type { GameState, PlayerId } from "../types/gameTypes";
-import { addUnitToBench, clearUnitPlacement } from "../systems/boardSystem";
-import { getRoundIncome } from "../systems/economySystem";
+import { addUnitToBench, clearUnitPlacement, removeUnitFromRoster } from "../systems/boardSystem";
+import { getRoundIncome, getUnitSellValue } from "../systems/economySystem";
 import { resolveAutomaticUpgrades } from "../systems/fusionSystem";
 import { equipItemOnUnit } from "../systems/itemSystem";
 import { canBuyExperience, gainExperience } from "../systems/levelSystem";
@@ -112,6 +112,41 @@ export function purchaseShopOffer(game: GameState, playerId: PlayerId, slotIndex
   resolveAutomaticUpgrades(game, playerId);
   recalculatePlayerSynergies(game, playerId);
   return true;
+}
+
+export function sellUnitForPlayer(
+  game: GameState,
+  playerId: PlayerId,
+  unitId: string,
+): { goldEarned: number; unitName: string; returnedItemIds: string[] } | null {
+  const player = game.players[playerId];
+  if (!player || player.isEliminated || !player.rosterUnitIds.includes(unitId)) {
+    return null;
+  }
+
+  const unit = game.unitsById[unitId];
+  if (!unit || unit.ownerId !== playerId) {
+    return null;
+  }
+
+  const template = unitById[unit.templateId];
+  if (!template) {
+    return null;
+  }
+
+  const returnedItemIds = [...unit.items];
+  player.itemInventory.push(...returnedItemIds);
+  player.economy.gold += getUnitSellValue(template.cost, unit.starLevel);
+
+  removeUnitFromRoster(player, unitId);
+  delete game.unitsById[unitId];
+  recalculatePlayerSynergies(game, playerId);
+
+  return {
+    goldEarned: getUnitSellValue(template.cost, unit.starLevel),
+    unitName: template.name,
+    returnedItemIds,
+  };
 }
 
 export function clearPlayerArmy(game: GameState, playerId: PlayerId): void {

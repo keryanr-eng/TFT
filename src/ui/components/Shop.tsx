@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { createPreviewRenderUnit, type RenderUnitState } from "../../game/selectors";
 import { unitById } from "../../data/unitData";
 import type { GamePhase, ShopState } from "../../types/gameTypes";
+import { SellZone } from "./SellZone";
 import { ShopUnit } from "./ShopUnit";
 
 interface ShopProps {
@@ -15,7 +16,59 @@ interface ShopProps {
   onBuyUnit: (slotIndex: number) => void;
   onReroll: () => void;
   onBuyExperience: () => void;
+  onSellUnit: (unitId: string) => void;
   onHoverUnit: (unit: RenderUnitState | null) => void;
+  sellPreview: { unitName: string; sellValue: number } | null;
+}
+
+function ShopActionButton({
+  icon,
+  title,
+  hint,
+  accentClass,
+  disabled,
+  onClick,
+}: {
+  icon: string;
+  title: string;
+  hint: string;
+  accentClass: string;
+  disabled: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      className={clsx(
+        "group relative flex min-h-[3.35rem] w-[11rem] items-center gap-3 overflow-hidden rounded-[1.05rem] border px-3 py-2.5 text-left transition duration-150",
+        "bg-[linear-gradient(180deg,rgba(33,44,63,0.96)_0%,rgba(18,24,38,0.96)_100%)] shadow-[0_14px_28px_rgba(0,0,0,0.26),inset_0_1px_0_rgba(255,255,255,0.05)]",
+        accentClass,
+        disabled
+          ? "cursor-not-allowed border-white/10 text-slate-500 opacity-55 shadow-none"
+          : "hover:-translate-y-0.5 hover:border-white/24 hover:shadow-[0_18px_34px_rgba(0,0,0,0.32),inset_0_1px_0_rgba(255,255,255,0.08)] active:translate-y-0",
+      )}
+      disabled={disabled}
+      onClick={onClick}
+      type="button"
+    >
+      <div className="absolute inset-y-0 left-0 w-1 bg-white/10 opacity-70" />
+      <div
+        className={clsx(
+          "grid h-10 w-10 shrink-0 place-items-center rounded-[0.9rem] border text-lg font-display shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]",
+          disabled ? "border-white/8 bg-white/[0.04] text-slate-500" : "border-white/18 bg-white/[0.08] text-white",
+        )}
+      >
+        {icon}
+      </div>
+      <div className="min-w-0">
+        <p className={clsx("text-[11px] font-bold uppercase tracking-[0.18em]", disabled ? "text-slate-500" : "text-slate-50")}>
+          {title}
+        </p>
+        <p className={clsx("mt-0.5 text-[11px] font-semibold", disabled ? "text-slate-600" : "text-slate-300")}>
+          {hint}
+        </p>
+      </div>
+    </button>
+  );
 }
 
 export function Shop({
@@ -29,15 +82,17 @@ export function Shop({
   onBuyUnit,
   onReroll,
   onBuyExperience,
+  onSellUnit,
   onHoverUnit,
+  sellPreview,
 }: ShopProps) {
   const canInteract = phase === "prep";
   const xpRatio = xpToNext > 0 ? Math.max(0, Math.min(1, currentXp / xpToNext)) : 1;
 
   return (
-    <section className="tft-surface rounded-[1.45rem] p-3">
-      <div className="mb-3 flex items-center justify-between gap-4">
-        <div className="flex min-w-0 items-center gap-2">
+    <section className="tft-surface rounded-[1.45rem] p-2.5 xl:p-3">
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-3 xl:flex-nowrap xl:gap-4">
+        <div className="flex min-w-0 flex-wrap items-center gap-2">
           <div
             className={clsx(
               "rounded-full border px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] transition shadow-[0_0_20px_rgba(247,201,72,0.08)]",
@@ -67,27 +122,36 @@ export function Shop({
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
-          <button
-            className="rounded-full border border-orange-300/24 bg-[linear-gradient(180deg,rgba(255,132,92,0.94)_0%,rgba(235,95,70,0.9)_100%)] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-orange-50 transition hover:-translate-y-0.5 hover:shadow-[0_14px_28px_rgba(255,132,92,0.22)] disabled:cursor-not-allowed disabled:opacity-45"
-            disabled={!canInteract || gold < shop.rerollCost}
-            onClick={onReroll}
-            type="button"
-          >
-            Reroll {shop.rerollCost}g
-          </button>
-          <button
-            className="rounded-full border border-cyan-300/24 bg-[linear-gradient(180deg,rgba(60,132,168,0.96)_0%,rgba(42,96,134,0.92)_100%)] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-cyan-50 transition hover:-translate-y-0.5 hover:shadow-[0_14px_28px_rgba(60,132,168,0.24)] disabled:cursor-not-allowed disabled:opacity-45"
-            disabled={!canInteract || gold < shop.xpCost}
-            onClick={onBuyExperience}
-            type="button"
-          >
-            Acheter XP
-          </button>
+        <div className="flex items-start gap-2">
+          <SellZone
+            canInteract={canInteract}
+            isDraggingUnit={Boolean(sellPreview)}
+            onSellUnit={onSellUnit}
+            sellValue={sellPreview?.sellValue}
+            unitName={sellPreview?.unitName}
+          />
+          <div className="grid gap-2">
+            <ShopActionButton
+              accentClass="border-orange-300/28"
+              disabled={!canInteract || gold < shop.rerollCost}
+              hint={`${shop.rerollCost}g`}
+              icon="↻"
+              onClick={onReroll}
+              title="Reroll"
+            />
+            <ShopActionButton
+              accentClass="border-cyan-300/28"
+              disabled={!canInteract || gold < shop.xpCost}
+              hint={`${shop.xpCost}g`}
+              icon="↑"
+              onClick={onBuyExperience}
+              title="Acheter XP"
+            />
+          </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-5 gap-2">
+      <div className="grid grid-cols-5 gap-1.5 xl:gap-2">
         {shop.offers.map((offer) => {
           const template = unitById[offer.unitId];
           if (!template) {

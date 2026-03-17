@@ -156,18 +156,23 @@ body,
 
 .tft-board-cell {
   border: 1px solid rgba(159, 181, 216, 0.08);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.055) 0%, rgba(255, 255, 255, 0.018) 100%);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.055) 0%, rgba(255, 255, 255, 0.018) 100%);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.025),
     inset 0 -1px 0 rgba(0, 0, 0, 0.15);
 }
 
 .tft-board-cell-away {
-  background: linear-gradient(180deg, rgba(66, 98, 141, 0.18) 0%, rgba(255, 255, 255, 0.018) 100%);
+  background:
+    radial-gradient(circle at top, rgba(255, 124, 124, 0.07) 0%, transparent 62%),
+    linear-gradient(180deg, rgba(83, 53, 70, 0.28) 0%, rgba(27, 20, 34, 0.18) 100%);
 }
 
 .tft-board-cell-home {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(14, 22, 38, 0.3) 100%);
+  background:
+    radial-gradient(circle at bottom, rgba(91, 194, 255, 0.08) 0%, transparent 62%),
+    linear-gradient(180deg, rgba(22, 34, 58, 0.2) 0%, rgba(20, 64, 88, 0.24) 100%);
 }
 
 .tft-empty-slot {

@@ -1,3 +1,5 @@
+import type { UnitCost } from "../types/gameTypes";
+
 export function calculateInterest(gold: number, cap = 5): number {
   return Math.max(0, Math.min(Math.floor(gold / 10), cap));
 }
@@ -41,3 +43,6 @@ export function getRoundIncome(gold: number, winStreak: number, lossStreak: numb
   };
 }
 
+export function getUnitSellValue(cost: UnitCost, starLevel: number): number {
+  return cost * Math.pow(3, starLevel - 1);
+}

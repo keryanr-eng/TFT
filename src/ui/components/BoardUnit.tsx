@@ -12,6 +12,8 @@ interface BoardUnitProps {
   className?: string;
   onHoverChange?: (isHovered: boolean) => void;
   onClick?: () => void;
+  onSell?: () => void;
+  onUnitDragStateChange?: (unitId: string | null) => void;
   onItemDrop?: (itemId: string) => void;
   onItemDragStateChange?: (isActive: boolean) => void;
 }
@@ -31,6 +33,8 @@ export function BoardUnit({
   className,
   onHoverChange,
   onClick,
+  onSell,
+  onUnitDragStateChange,
   onItemDrop,
   onItemDragStateChange,
 }: BoardUnitProps) {
@@ -56,10 +60,20 @@ export function BoardUnit({
       )}
       draggable={draggable}
       onClick={onClick}
+      onContextMenu={
+        onSell
+          ? (event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              onSell();
+            }
+          : undefined
+      }
       onDragEnd={
         draggable
           ? () => {
               clearDraggedUnitId();
+              onUnitDragStateChange?.(null);
             }
           : undefined
       }
@@ -121,6 +135,7 @@ export function BoardUnit({
         draggable
           ? (event) => {
               setDraggedUnitId(event, unit.instanceId);
+              onUnitDragStateChange?.(unit.instanceId);
             }
           : undefined
       }

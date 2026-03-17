@@ -7,6 +7,7 @@ import {
   equipHumanItem,
   moveHumanUnit,
   rerollHumanShop,
+  sellHumanUnit,
   startCombatPhase,
   tickCombatPhase,
 } from "../game/gameManager";
@@ -19,6 +20,7 @@ interface GameStore {
   buyUnit: (slotIndex: number) => void;
   buyExperience: () => void;
   equipItem: (itemId: string, unitId: string) => void;
+  sellUnit: (unitId: string) => void;
   startCombat: () => void;
   tickCombat: (deltaMs: number) => void;
   advanceRound: () => void;
@@ -46,6 +48,10 @@ export const useGameStore = create<GameStore>((set) => ({
   equipItem: (itemId, unitId) =>
     set((state) => ({
       game: equipHumanItem(state.game, itemId, unitId),
+    })),
+  sellUnit: (unitId) =>
+    set((state) => ({
+      game: sellHumanUnit(state.game, unitId),
     })),
   startCombat: () =>
     set((state) => ({

@@ -16,6 +16,8 @@ interface BoardProps {
   onDropItemToUnit: (itemId: string, unitId: string) => void;
   onHoverUnit: (unitId: string | null) => void;
   onSelectUnit: (unitId: string) => void;
+  onSellUnit: (unitId: string) => void;
+  onUnitDragStateChange: (unitId: string | null) => void;
 }
 
 export function Board({
@@ -29,6 +31,8 @@ export function Board({
   onDropItemToUnit,
   onHoverUnit,
   onSelectUnit,
+  onSellUnit,
+  onUnitDragStateChange,
 }: BoardProps) {
   const byKey = new Map(cells.map((cell) => [`${cell.side}-${cell.row}-${cell.column}`, cell.unit]));
   const canDrop = phase === "prep";
@@ -36,7 +40,7 @@ export function Board({
   const [activeItemTargetUnitId, setActiveItemTargetUnitId] = useState<string | null>(null);
 
   return (
-    <section className="tft-surface-hero relative flex h-full min-h-0 flex-col overflow-hidden rounded-[2rem] p-3">
+    <section className="tft-surface-hero relative flex h-full min-h-0 flex-col overflow-hidden rounded-[2rem] p-2.5 xl:p-3">
       <div className="pointer-events-none absolute inset-x-20 top-0 h-20 rounded-full bg-cyan-300/8 blur-3xl" />
       <div className="tft-hero-glow" />
 
@@ -46,9 +50,14 @@ export function Board({
         </p>
       </div>
 
-      <div className="tft-board-shell panel-grid relative z-10 flex-1 overflow-hidden rounded-[1.9rem] p-3">
+      <div className="tft-board-shell panel-grid relative z-10 flex-1 overflow-hidden rounded-[1.9rem] p-2.5 xl:p-3">
+        <div className="pointer-events-none absolute inset-3 overflow-hidden rounded-[1.45rem]">
+          <div className="absolute inset-x-0 top-0 h-1/2 bg-[linear-gradient(180deg,rgba(160,82,102,0.1)_0%,rgba(82,39,56,0.04)_100%)]" />
+          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-[linear-gradient(180deg,rgba(18,60,82,0.04)_0%,rgba(52,157,201,0.08)_100%)]" />
+          <div className="absolute inset-x-4 top-1/2 h-px -translate-y-1/2 bg-[linear-gradient(90deg,rgba(255,255,255,0)_0%,rgba(148,197,255,0.38)_18%,rgba(148,197,255,0.38)_82%,rgba(255,255,255,0)_100%)] shadow-[0_0_18px_rgba(125,211,252,0.14)]" />
+        </div>
         <div
-          className="grid h-full gap-2"
+          className="grid h-full gap-1.5 xl:gap-2"
           style={{
             gridTemplateColumns: `repeat(${board.columns}, minmax(0, 1fr))`,
             gridTemplateRows: `repeat(${board.awayRows + board.homeRows}, minmax(0, 1fr))`,
@@ -139,6 +148,14 @@ export function Board({
                             }
                           : undefined
                       }
+                      onSell={
+                        canDrop && side === "home"
+                          ? () => {
+                              onSellUnit(unit.instanceId);
+                            }
+                          : undefined
+                      }
+                      onUnitDragStateChange={onUnitDragStateChange}
                       unit={unit}
                     />
                   ) : (

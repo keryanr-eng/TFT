@@ -13,6 +13,8 @@ interface BenchProps {
   onDropItemToUnit: (itemId: string, unitId: string) => void;
   onHoverUnit: (unitId: string | null) => void;
   onSelectUnit: (unitId: string) => void;
+  onSellUnit: (unitId: string) => void;
+  onUnitDragStateChange: (unitId: string | null) => void;
 }
 
 export function Bench({
@@ -24,6 +26,8 @@ export function Bench({
   onDropItemToUnit,
   onHoverUnit,
   onSelectUnit,
+  onSellUnit,
+  onUnitDragStateChange,
 }: BenchProps) {
   const canDrop = phase === "prep";
   const filledSlots = slots.filter((slot) => slot.unit !== null).length;
@@ -31,7 +35,7 @@ export function Bench({
   const [activeItemTargetUnitId, setActiveItemTargetUnitId] = useState<string | null>(null);
 
   return (
-    <section className="tft-surface rounded-[1.5rem] p-3">
+    <section className="tft-surface rounded-[1.5rem] p-2.5 xl:p-3">
       <div className="mb-2 flex items-center justify-between gap-3">
         <h2 className="tft-heading font-display text-lg">Bench</h2>
         <span className="rounded-full border border-amber-300/20 bg-amber-300/14 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-100">
@@ -39,7 +43,7 @@ export function Bench({
         </span>
       </div>
 
-      <div className="grid grid-cols-9 gap-2">
+      <div className="grid grid-cols-9 gap-1.5 xl:gap-2">
         {slots.map((slot) => {
           const unit = slot.unit;
           const equippedCount = unit ? unit.itemIds.length : 0;
@@ -48,7 +52,7 @@ export function Bench({
           return (
             <div
               key={`bench-slot-${slot.slotIndex}`}
-              className="tft-empty-slot h-32 rounded-[1.1rem] p-1.5 transition hover:border-cyan-300/18 hover:bg-white/[0.06]"
+              className="tft-empty-slot h-28 rounded-[1.1rem] p-1.5 transition hover:border-cyan-300/18 hover:bg-white/[0.06] xl:h-32"
               onDragOver={
                 canDrop
                   ? (event) => {
@@ -114,6 +118,14 @@ export function Bench({
                         }
                       : undefined
                   }
+                  onSell={
+                    canDrop
+                      ? () => {
+                          onSellUnit(unit.instanceId);
+                        }
+                      : undefined
+                  }
+                  onUnitDragStateChange={onUnitDragStateChange}
                   unit={unit}
                 />
               ) : (

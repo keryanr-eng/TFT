@@ -11,6 +11,7 @@ import {
   getRenderBoard,
   type RenderUnitState,
 } from "./game/selectors";
+import { getUnitSellValue } from "./systems/economySystem";
 import { useGameStore } from "./store/gameStore";
 import { Bench } from "./ui/components/Bench";
 import { Board } from "./ui/components/Board";
@@ -27,7 +28,7 @@ import { useInterfaceFeedback } from "./ui/useInterfaceFeedback";
 import { UnitStatsPanel } from "./ui/components/UnitStatsPanel";
 
 function App() {
-  const { game, moveUnit, rerollShop, buyUnit, buyExperience, equipItem, startCombat, tickCombat, advanceRound, resetGame } =
+  const { game, moveUnit, rerollShop, buyUnit, buyExperience, equipItem, sellUnit, startCombat, tickCombat, advanceRound, resetGame } =
     useGameStore(
       useShallow((state) => ({
         game: state.game,
@@ -36,6 +37,7 @@ function App() {
         buyUnit: state.buyUnit,
         buyExperience: state.buyExperience,
         equipItem: state.equipItem,
+        sellUnit: state.sellUnit,
         startCombat: state.startCombat,
         tickCombat: state.tickCombat,
         advanceRound: state.advanceRound,
@@ -56,6 +58,7 @@ function App() {
   const [hoveredShopUnit, setHoveredShopUnit] = useState<RenderUnitState | null>(null);
   const [pinnedUnitId, setPinnedUnitId] = useState<string | null>(null);
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
+  const [draggedUnitId, setDraggedUnitId] = useState<string | null>(null);
   const closeInspectorTimeoutRef = useRef<number | null>(null);
   const hoveredUnits = useMemo(() => {
     const units = new Map<string, (typeof boardCells)[number]["unit"]>();
@@ -77,6 +80,13 @@ function App() {
   const pinnedUnit = pinnedUnitId ? hoveredUnits.get(pinnedUnitId) ?? null : null;
   const inspectedUnit = pinnedUnit ?? (hoveredUnitId ? hoveredUnits.get(hoveredUnitId) ?? null : hoveredShopUnit);
   const hoveredUnitItems = inspectedUnit?.itemIds ?? [];
+  const draggedUnit = draggedUnitId ? hoveredUnits.get(draggedUnitId) ?? null : null;
+  const sellPreview = draggedUnit
+    ? {
+        unitName: draggedUnit.template.name,
+        sellValue: getUnitSellValue(draggedUnit.template.cost, draggedUnit.starLevel),
+      }
+    : null;
   const lobbyPlayers = [
     {
       id: player.id,
@@ -135,6 +145,14 @@ function App() {
 
     setHoveredUnitId(null);
   }, [hoveredUnitId, hoveredUnits]);
+
+  useEffect(() => {
+    if (!draggedUnitId || hoveredUnits.has(draggedUnitId)) {
+      return;
+    }
+
+    setDraggedUnitId(null);
+  }, [draggedUnitId, hoveredUnits]);
 
   useEffect(() => {
     if (!pinnedUnitId || hoveredUnits.has(pinnedUnitId)) {
@@ -201,13 +219,13 @@ function App() {
 
   return (
     <div className="h-[100dvh] overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(60,132,168,0.2),_transparent_26%),radial-gradient(circle_at_bottom,_rgba(247,201,72,0.06),_transparent_30%),linear-gradient(180deg,_#0a1322_0%,_#040811_100%)] text-slate-100">
-      <div className="relative mx-auto grid h-full max-w-[1750px] grid-rows-[auto_minmax(0,1fr)] gap-2 p-2.5 xl:p-3">
-        <HUD player={player} round={game.round} />
+        <div className="relative mx-auto grid h-full max-w-[1750px] grid-rows-[auto_minmax(0,1fr)] gap-2 p-2 lg:p-2.5 2xl:p-3">
+          <HUD player={player} round={game.round} />
 
-        <div className="grid min-h-0 gap-3 xl:grid-cols-[11.5rem_minmax(0,1fr)_13rem]">
-          <aside className="relative z-30 flex min-h-0 flex-col gap-2.5 overflow-visible">
-            <SynergyPanel activeSynergies={activeSynergies} />
-            <ItemInventoryPanel
+          <div className="grid min-h-0 gap-2 lg:grid-cols-[9.75rem_minmax(0,1fr)_12rem] xl:gap-3 xl:grid-cols-[10.75rem_minmax(0,1fr)_12.75rem] 2xl:grid-cols-[11.5rem_minmax(0,1fr)_13rem]">
+            <aside className="relative z-30 flex min-h-0 min-w-0 flex-col gap-2 overflow-visible xl:gap-2.5">
+              <SynergyPanel activeSynergies={activeSynergies} />
+              <ItemInventoryPanel
               itemIds={inventoryItemIds}
               onSelectItem={(itemId) => {
                 setSelectedItemId((current) => (current === itemId ? null : itemId));
@@ -216,7 +234,7 @@ function App() {
             />
           </aside>
 
-          <div className="relative z-10 grid min-h-0 grid-rows-[minmax(0,1fr)_auto_auto_auto] gap-2.5">
+          <div className="relative z-10 grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto_auto_auto] gap-2 lg:gap-2.5">
             <div className="relative min-h-0">
               <Board
                 board={game.board}
@@ -253,6 +271,11 @@ function App() {
                   setHoveredUnitId(unitId);
                   setPinnedUnitId((current) => (current === unitId ? null : unitId));
                 }}
+                onSellUnit={(unitId) => {
+                  sellUnit(unitId);
+                  setDraggedUnitId(null);
+                }}
+                onUnitDragStateChange={setDraggedUnitId}
                 opponentLabel={opponent?.name ?? game.round.enemyLabel}
                 phase={game.phase}
                 selectedItemId={selectedItemId}
@@ -305,6 +328,11 @@ function App() {
                 setHoveredUnitId(unitId);
                 setPinnedUnitId((current) => (current === unitId ? null : unitId));
               }}
+              onSellUnit={(unitId) => {
+                sellUnit(unitId);
+                setDraggedUnitId(null);
+              }}
+              onUnitDragStateChange={setDraggedUnitId}
               phase={game.phase}
               selectedItemId={selectedItemId}
               slots={benchSlots}
@@ -332,13 +360,18 @@ function App() {
                 scheduleInspectorClose();
               }}
               onReroll={rerollShop}
+              onSellUnit={(unitId) => {
+                sellUnit(unitId);
+                setDraggedUnitId(null);
+              }}
               phase={game.phase}
+              sellPreview={sellPreview}
               shop={player.shop}
               xpToNext={player.experience.xpToNext}
             />
           </div>
 
-          <aside className="relative z-30 flex min-h-0 flex-col gap-2 overflow-visible">
+          <aside className="relative z-30 flex min-h-0 min-w-0 flex-col gap-2 overflow-visible">
             <LobbyHealthPanel players={lobbyPlayers} />
             <UnitStatsPanel
               className="flex-1"

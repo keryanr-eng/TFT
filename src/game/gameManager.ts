@@ -11,7 +11,7 @@ import type {
   PlayerState,
 } from "../types/gameTypes";
 import { runBotPrepTurn } from "./botAI";
-import { awardPrepIncome, buyExperienceForPlayer, clearPlayerArmy, equipItemForPlayer, purchaseShopOffer, recalculateAllSynergies, recalculatePlayerSynergies, refreshPlayerShop } from "./gameMutations";
+import { awardPrepIncome, buyExperienceForPlayer, clearPlayerArmy, equipItemForPlayer, purchaseShopOffer, recalculateAllSynergies, recalculatePlayerSynergies, refreshPlayerShop, sellUnitForPlayer } from "./gameMutations";
 import { applyDamageToPlayer, getLivingPlayerIds } from "./playerManager";
 import { buildPveFormation, createRoundState, inferRoundKind } from "./roundManager";
 import { createBaseGameState } from "./sessionFactory";
@@ -371,6 +371,27 @@ export function equipHumanItem(current: GameState, itemId: string, unitId: strin
   }
 
   appendLog(next, "success", `${itemName} equipe sur ${unitName}.`);
+  return next;
+}
+
+export function sellHumanUnit(current: GameState, unitId: string): GameState {
+  const next = cloneGame(current);
+  if (next.phase !== "prep") {
+    return next;
+  }
+
+  const sold = sellUnitForPlayer(next, next.humanPlayerId, unitId);
+  if (!sold) {
+    return next;
+  }
+
+  appendLog(
+    next,
+    "success",
+    sold.returnedItemIds.length > 0
+      ? `${sold.unitName} vendue pour ${sold.goldEarned}g. ${sold.returnedItemIds.length} item(s) retournes.`
+      : `${sold.unitName} vendue pour ${sold.goldEarned}g.`,
+  );
   return next;
 }
 

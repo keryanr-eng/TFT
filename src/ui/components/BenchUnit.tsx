@@ -12,6 +12,8 @@ interface BenchUnitProps {
   className?: string;
   onHoverChange?: (isHovered: boolean) => void;
   onClick?: () => void;
+  onSell?: () => void;
+  onUnitDragStateChange?: (unitId: string | null) => void;
   onItemDrop?: (itemId: string) => void;
   onItemDragStateChange?: (isActive: boolean) => void;
 }
@@ -31,6 +33,8 @@ export function BenchUnit({
   className,
   onHoverChange,
   onClick,
+  onSell,
+  onUnitDragStateChange,
   onItemDrop,
   onItemDragStateChange,
 }: BenchUnitProps) {
@@ -44,7 +48,7 @@ export function BenchUnit({
     <article
       data-inspector-anchor="true"
       className={clsx(
-        "grid h-full min-h-0 grid-rows-[auto_minmax(0,1fr)_auto_auto] rounded-[1rem] border border-white/12 bg-[linear-gradient(180deg,rgba(20,30,48,0.96)_0%,rgba(10,16,28,0.98)_100%)] px-2.5 py-2.5 text-slate-100 transition duration-150",
+        "relative grid h-full min-h-0 grid-rows-[auto_minmax(0,1fr)_auto_auto] rounded-[1rem] border border-white/12 bg-[linear-gradient(180deg,rgba(20,30,48,0.96)_0%,rgba(10,16,28,0.98)_100%)] px-2.5 py-2.5 text-slate-100 transition duration-150",
         highlighted && "scale-[1.02] border-amber-300/55 ring-2 ring-amber-300/24",
         isItemEligible && "border-cyan-300/35 ring-2 ring-cyan-300/12",
         itemDropState === "active" && "border-cyan-300/70 ring-2 ring-cyan-300/30 bg-[linear-gradient(180deg,rgba(14,44,62,0.96)_0%,rgba(8,18,28,0.96)_100%)]",
@@ -55,10 +59,20 @@ export function BenchUnit({
       )}
       draggable={draggable}
       onClick={onClick}
+      onContextMenu={
+        onSell
+          ? (event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              onSell();
+            }
+          : undefined
+      }
       onDragEnd={
         draggable
           ? () => {
               clearDraggedUnitId();
+              onUnitDragStateChange?.(null);
             }
           : undefined
       }
@@ -120,6 +134,7 @@ export function BenchUnit({
         draggable
           ? (event) => {
               setDraggedUnitId(event, unit.instanceId);
+              onUnitDragStateChange?.(unit.instanceId);
             }
           : undefined
       }
