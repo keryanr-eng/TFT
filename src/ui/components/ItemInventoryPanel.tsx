@@ -12,7 +12,7 @@ interface ItemInventoryPanelProps {
 
 export function ItemInventoryPanel({ itemIds, selectedItemId, onSelectItem }: ItemInventoryPanelProps) {
   return (
-    <section className="tft-surface relative overflow-visible rounded-[1.45rem] p-3">
+    <section className="tft-surface-muted relative overflow-visible rounded-[1.45rem] p-3">
       <div className="mb-2 flex items-center justify-between gap-2">
         <h2 className="tft-heading font-display text-base">Items</h2>
         <span className="rounded-full border border-amber-300/20 bg-amber-300/12 px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.16em] text-amber-100">

@@ -12,8 +12,7 @@ interface BenchProps {
   onDropUnit: (unitId: string, slotIndex: number) => void;
   onDropItemToUnit: (itemId: string, unitId: string) => void;
   onHoverUnit: (unitId: string | null) => void;
-  onSelectUnit: (unitId: string) => void;
-  onSellUnit: (unitId: string) => void;
+  onPinUnit: (unitId: string) => void;
   onUnitDragStateChange: (unitId: string | null) => void;
 }
 
@@ -25,8 +24,7 @@ export function Bench({
   onDropUnit,
   onDropItemToUnit,
   onHoverUnit,
-  onSelectUnit,
-  onSellUnit,
+  onPinUnit,
   onUnitDragStateChange,
 }: BenchProps) {
   const canDrop = phase === "prep";
@@ -35,15 +33,15 @@ export function Bench({
   const [activeItemTargetUnitId, setActiveItemTargetUnitId] = useState<string | null>(null);
 
   return (
-    <section className="tft-surface rounded-[1.5rem] p-2.5 xl:p-3">
-      <div className="mb-2 flex items-center justify-between gap-3">
-        <h2 className="tft-heading font-display text-lg">Bench</h2>
-        <span className="rounded-full border border-amber-300/20 bg-amber-300/14 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-100">
+    <section className="tft-surface-muted h-full overflow-hidden rounded-[1.1rem] p-1.25 xl:p-1.5">
+      <div className="mb-1 flex items-center justify-between gap-3">
+        <h2 className="tft-heading font-display text-[12px]">Bench</h2>
+        <span className="rounded-full border border-amber-300/20 bg-amber-300/14 px-2 py-0.5 text-[8px] font-semibold uppercase tracking-[0.14em] text-amber-100">
           {filledSlots}/{slots.length}
         </span>
       </div>
 
-      <div className="grid grid-cols-9 gap-1.5 xl:gap-2">
+      <div className="grid grid-cols-9 gap-0.75 xl:gap-1">
         {slots.map((slot) => {
           const unit = slot.unit;
           const equippedCount = unit ? unit.itemIds.length : 0;
@@ -52,7 +50,7 @@ export function Bench({
           return (
             <div
               key={`bench-slot-${slot.slotIndex}`}
-              className="tft-empty-slot h-28 rounded-[1.1rem] p-1.5 transition hover:border-cyan-300/18 hover:bg-white/[0.06] xl:h-32"
+              className="tft-empty-slot h-[4.05rem] rounded-[0.8rem] p-0.5 transition hover:border-cyan-300/18 hover:bg-white/[0.06] xl:h-[4.45rem]"
               onDragOver={
                 canDrop
                   ? (event) => {
@@ -94,14 +92,11 @@ export function Bench({
                       : "idle"
                   }
                   onClick={
-                    () => {
-                      if (selectedItemId && canReceiveItem) {
-                        onDropItemToUnit(selectedItemId, unit.instanceId);
-                        return;
-                      }
-
-                      onSelectUnit(unit.instanceId);
-                    }
+                    selectedItemId && canReceiveItem
+                      ? () => {
+                          onDropItemToUnit(selectedItemId, unit.instanceId);
+                        }
+                      : undefined
                   }
                   onHoverChange={(isHovered) => onHoverUnit(isHovered ? unit.instanceId : null)}
                   onItemDragStateChange={
@@ -118,18 +113,14 @@ export function Bench({
                         }
                       : undefined
                   }
-                  onSell={
-                    canDrop
-                      ? () => {
-                          onSellUnit(unit.instanceId);
-                        }
-                      : undefined
-                  }
+                  onPin={() => {
+                    onPinUnit(unit.instanceId);
+                  }}
                   onUnitDragStateChange={onUnitDragStateChange}
                   unit={unit}
                 />
               ) : (
-                <div className="flex h-full items-center justify-center rounded-[1rem] bg-white/[0.03] text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                <div className="flex h-full items-center justify-center rounded-[0.7rem] bg-white/[0.03] text-[7px] font-semibold uppercase tracking-[0.14em] text-slate-500">
                   {slot.slotIndex + 1}
                 </div>
               )}

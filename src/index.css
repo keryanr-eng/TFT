@@ -70,9 +70,8 @@ body,
 
 .panel-grid {
   background-image:
-    linear-gradient(rgba(154, 181, 219, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(154, 181, 219, 0.08) 1px, transparent 1px),
-    radial-gradient(circle at center, rgba(90, 124, 170, 0.12) 0%, transparent 62%);
+    linear-gradient(rgba(154, 181, 219, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(154, 181, 219, 0.1) 1px, transparent 1px);
   background-size: 100% 100%, 100% 100%, 100% 100%;
   background-position: 0 0, 0 0, center;
 }
@@ -93,6 +92,16 @@ body,
   backdrop-filter: blur(16px);
 }
 
+.tft-surface-muted {
+  border: 1px solid rgba(100, 120, 156, 0.07);
+  background:
+    linear-gradient(180deg, rgba(8, 12, 21, 0.96) 0%, rgba(3, 7, 13, 0.97) 100%);
+  box-shadow:
+    0 18px 34px rgba(0, 0, 0, 0.38),
+    inset 0 1px 0 rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(14px);
+}
+
 .tft-surface-soft {
   border: 1px solid rgba(152, 178, 216, 0.12);
   background: linear-gradient(180deg, rgba(13, 20, 33, 0.88) 0%, rgba(8, 12, 22, 0.8) 100%);
@@ -102,14 +111,15 @@ body,
 }
 
 .tft-surface-hero {
-  border: 1px solid rgba(156, 189, 238, 0.18);
+  border: 1px solid rgba(194, 221, 255, 0.31);
   background:
-    radial-gradient(circle at top center, rgba(87, 144, 232, 0.12), transparent 34%),
+    radial-gradient(circle at top center, rgba(87, 144, 232, 0.16), transparent 28%),
     linear-gradient(180deg, rgba(18, 29, 46, 0.96) 0%, rgba(8, 14, 24, 0.95) 100%);
   box-shadow:
-    0 30px 76px rgba(0, 0, 0, 0.44),
-    0 0 40px rgba(58, 130, 246, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    0 34px 84px rgba(0, 0, 0, 0.5),
+    0 0 48px rgba(58, 130, 246, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 0 30px rgba(103, 232, 249, 0.035);
   backdrop-filter: blur(18px);
 }
 
@@ -143,43 +153,69 @@ body,
 }
 
 .tft-board-shell {
-  border: 1px solid rgba(142, 166, 204, 0.14);
+  border: 1px solid rgba(190, 212, 244, 0.31);
   background:
-    radial-gradient(circle at center, rgba(58, 102, 176, 0.16) 0%, transparent 54%),
-    radial-gradient(circle at top center, rgba(119, 198, 255, 0.08) 0%, transparent 28%),
-    linear-gradient(180deg, rgba(15, 22, 36, 0.98) 0%, rgba(7, 11, 20, 0.96) 100%);
+    linear-gradient(180deg, rgba(17, 24, 39, 0.98) 0%, rgba(7, 11, 20, 0.98) 100%);
   box-shadow:
-    0 0 48px rgba(58, 130, 246, 0.08),
+    0 0 32px rgba(58, 130, 246, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.04),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+    inset 0 18px 24px rgba(255, 255, 255, 0.01),
+    inset 0 -28px 36px rgba(0, 0, 0, 0.22);
 }
 
 .tft-board-cell {
-  border: 1px solid rgba(159, 181, 216, 0.08);
+  border: 1px solid rgba(205, 221, 246, 0.4);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.055) 0%, rgba(255, 255, 255, 0.018) 100%);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.03) 26%, rgba(0, 0, 0, 0.12) 100%);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.025),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.34),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.045),
+    inset 8px 0 16px rgba(255, 255, 255, 0.018),
+    inset -8px 0 16px rgba(0, 0, 0, 0.1),
+    inset 0 -16px 18px rgba(0, 0, 0, 0.16),
+    0 9px 14px rgba(0, 0, 0, 0.15);
 }
 
 .tft-board-cell-away {
   background:
-    radial-gradient(circle at top, rgba(255, 124, 124, 0.07) 0%, transparent 62%),
-    linear-gradient(180deg, rgba(83, 53, 70, 0.28) 0%, rgba(27, 20, 34, 0.18) 100%);
+    linear-gradient(180deg, rgba(164, 76, 118, 0.34) 0%, rgba(102, 49, 92, 0.34) 40%, rgba(35, 23, 43, 0.22) 100%);
 }
 
 .tft-board-cell-home {
   background:
-    radial-gradient(circle at bottom, rgba(91, 194, 255, 0.08) 0%, transparent 62%),
-    linear-gradient(180deg, rgba(22, 34, 58, 0.2) 0%, rgba(20, 64, 88, 0.24) 100%);
+    linear-gradient(180deg, rgba(29, 72, 108, 0.22) 0%, rgba(26, 110, 162, 0.38) 46%, rgba(15, 70, 114, 0.34) 100%);
 }
 
 .tft-empty-slot {
-  border: 1px dashed rgba(169, 189, 220, 0.12);
+  border: 1px dashed rgba(186, 205, 235, 0.22);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.02) 100%);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045) 0%, rgba(255, 255, 255, 0.015) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.03),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.22);
+}
+
+.tft-shop-band {
+  border: 1px solid rgba(112, 134, 172, 0.12);
+  background:
+    radial-gradient(circle at top left, rgba(80, 138, 232, 0.06) 0%, transparent 22%),
+    linear-gradient(180deg, rgba(10, 16, 27, 0.985) 0%, rgba(4, 8, 14, 0.995) 100%);
+  box-shadow:
+    0 18px 38px rgba(0, 0, 0, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    inset 0 -18px 30px rgba(0, 0, 0, 0.16);
+}
+
+.tft-shop-card {
+  border: 1px solid rgba(172, 192, 222, 0.14);
+  background:
+    linear-gradient(180deg, rgba(22, 31, 47, 0.98) 0%, rgba(9, 14, 25, 0.98) 100%);
+  box-shadow:
+    0 12px 24px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    inset 0 -12px 18px rgba(0, 0, 0, 0.08);
 }
 
 .tft-hero-glow {
@@ -187,8 +223,8 @@ body,
   inset: auto 10% -14% 10%;
   height: 34%;
   border-radius: 999px;
-  background: radial-gradient(circle, rgba(72, 168, 255, 0.15) 0%, rgba(72, 168, 255, 0) 72%);
-  filter: blur(34px);
+  background: radial-gradient(circle, rgba(72, 168, 255, 0.08) 0%, rgba(72, 168, 255, 0) 68%);
+  filter: blur(22px);
   pointer-events: none;
   animation: arcane-pulse 5.4s ease-in-out infinite;
 }

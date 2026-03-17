@@ -15,7 +15,6 @@ import { getUnitSellValue } from "./systems/economySystem";
 import { useGameStore } from "./store/gameStore";
 import { Bench } from "./ui/components/Bench";
 import { Board } from "./ui/components/Board";
-import { BoardActionBar } from "./ui/components/BoardActionBar";
 import { CombatResultOverlay } from "./ui/components/CombatResultOverlay";
 import { DebugPanel } from "./ui/components/DebugPanel";
 import { FeedbackToast } from "./ui/components/FeedbackToast";
@@ -24,6 +23,7 @@ import { ItemInventoryPanel } from "./ui/components/ItemInventoryPanel";
 import { LobbyHealthPanel } from "./ui/components/LobbyHealthPanel";
 import { Shop } from "./ui/components/Shop";
 import { SynergyPanel } from "./ui/components/SynergyPanel";
+import { clearDraggedItemId, clearDraggedUnitId } from "./ui/dragData";
 import { useInterfaceFeedback } from "./ui/useInterfaceFeedback";
 import { UnitStatsPanel } from "./ui/components/UnitStatsPanel";
 
@@ -57,6 +57,7 @@ function App() {
   const [hoveredUnitId, setHoveredUnitId] = useState<string | null>(null);
   const [hoveredShopUnit, setHoveredShopUnit] = useState<RenderUnitState | null>(null);
   const [pinnedUnitId, setPinnedUnitId] = useState<string | null>(null);
+  const [pinnedShopUnit, setPinnedShopUnit] = useState<RenderUnitState | null>(null);
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
   const [draggedUnitId, setDraggedUnitId] = useState<string | null>(null);
   const closeInspectorTimeoutRef = useRef<number | null>(null);
@@ -78,7 +79,11 @@ function App() {
     return units;
   }, [benchSlots, boardCells]);
   const pinnedUnit = pinnedUnitId ? hoveredUnits.get(pinnedUnitId) ?? null : null;
-  const inspectedUnit = pinnedUnit ?? (hoveredUnitId ? hoveredUnits.get(hoveredUnitId) ?? null : hoveredShopUnit);
+  const isInspectorPinned = Boolean(pinnedUnitId || pinnedShopUnit);
+  const inspectedUnit =
+    pinnedUnit ??
+    pinnedShopUnit ??
+    (hoveredUnitId ? hoveredUnits.get(hoveredUnitId) ?? null : hoveredShopUnit);
   const hoveredUnitItems = inspectedUnit?.itemIds ?? [];
   const draggedUnit = draggedUnitId ? hoveredUnits.get(draggedUnitId) ?? null : null;
   const sellPreview = draggedUnit
@@ -125,9 +130,20 @@ function App() {
     setHoveredShopUnit(null);
   }
 
+  function clearPinnedInspector() {
+    setPinnedUnitId(null);
+    setPinnedShopUnit(null);
+  }
+
+  function clearDragPreview() {
+    clearDraggedUnitId();
+    clearDraggedItemId();
+    setDraggedUnitId(null);
+  }
+
   function scheduleInspectorClose() {
     cancelInspectorClose();
-    if (pinnedUnitId) {
+    if (isInspectorPinned) {
       return;
     }
 
@@ -151,7 +167,7 @@ function App() {
       return;
     }
 
-    setDraggedUnitId(null);
+    clearDragPreview();
   }, [draggedUnitId, hoveredUnits]);
 
   useEffect(() => {
@@ -186,7 +202,7 @@ function App() {
       }
 
       cancelInspectorClose();
-      setPinnedUnitId(null);
+      clearPinnedInspector();
       clearInspectorPreview();
     };
 
@@ -200,6 +216,30 @@ function App() {
   useEffect(() => {
     return () => {
       cancelInspectorClose();
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleGlobalDragCleanup = () => {
+      clearDragPreview();
+    };
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        clearDragPreview();
+      }
+    };
+
+    window.addEventListener("dragend", handleGlobalDragCleanup, true);
+    window.addEventListener("drop", handleGlobalDragCleanup);
+    window.addEventListener("blur", handleGlobalDragCleanup);
+    window.addEventListener("keydown", handleEscape);
+
+    return () => {
+      window.removeEventListener("dragend", handleGlobalDragCleanup, true);
+      window.removeEventListener("drop", handleGlobalDragCleanup);
+      window.removeEventListener("blur", handleGlobalDragCleanup);
+      window.removeEventListener("keydown", handleEscape);
     };
   }, []);
 
@@ -219,13 +259,13 @@ function App() {
 
   return (
     <div className="h-[100dvh] overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(60,132,168,0.2),_transparent_26%),radial-gradient(circle_at_bottom,_rgba(247,201,72,0.06),_transparent_30%),linear-gradient(180deg,_#0a1322_0%,_#040811_100%)] text-slate-100">
-        <div className="relative mx-auto grid h-full max-w-[1750px] grid-rows-[auto_minmax(0,1fr)] gap-2 p-2 lg:p-2.5 2xl:p-3">
-          <HUD player={player} round={game.round} />
+      <div className="relative mx-auto grid h-full max-w-[1800px] grid-rows-[auto_minmax(0,1fr)] gap-1 p-1 lg:p-1.5 2xl:p-2">
+        <HUD player={player} round={game.round} />
 
-          <div className="grid min-h-0 gap-2 lg:grid-cols-[9.75rem_minmax(0,1fr)_12rem] xl:gap-3 xl:grid-cols-[10.75rem_minmax(0,1fr)_12.75rem] 2xl:grid-cols-[11.5rem_minmax(0,1fr)_13rem]">
-            <aside className="relative z-30 flex min-h-0 min-w-0 flex-col gap-2 overflow-visible xl:gap-2.5">
-              <SynergyPanel activeSynergies={activeSynergies} />
-              <ItemInventoryPanel
+        <div className="grid min-h-0 gap-1 lg:grid-cols-[8rem_minmax(0,1fr)_10rem] xl:gap-1.25 xl:grid-cols-[8.5rem_minmax(0,1fr)_10.5rem] 2xl:grid-cols-[9rem_minmax(0,1fr)_11rem]">
+          <aside className="relative z-30 flex min-h-0 min-w-0 flex-col gap-1.25 overflow-visible xl:gap-1.5">
+            <SynergyPanel activeSynergies={activeSynergies} />
+            <ItemInventoryPanel
               itemIds={inventoryItemIds}
               onSelectItem={(itemId) => {
                 setSelectedItemId((current) => (current === itemId ? null : itemId));
@@ -234,7 +274,7 @@ function App() {
             />
           </aside>
 
-          <div className="relative z-10 grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto_auto_auto] gap-2 lg:gap-2.5">
+          <div className="relative z-10 grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_5.35rem_6.35rem] gap-1 lg:gap-1.1 xl:grid-rows-[minmax(0,1fr)_5.75rem_6.6rem] 2xl:grid-rows-[minmax(0,1fr)_6rem_6.9rem]">
             <div className="relative min-h-0">
               <Board
                 board={game.board}
@@ -252,7 +292,7 @@ function App() {
                   })
                 }
                 onHoverUnit={(unitId) => {
-                  if (pinnedUnitId) {
+                  if (isInspectorPinned) {
                     return;
                   }
 
@@ -265,15 +305,12 @@ function App() {
 
                   scheduleInspectorClose();
                 }}
-                onSelectUnit={(unitId) => {
+                onPinUnit={(unitId) => {
                   cancelInspectorClose();
+                  setPinnedShopUnit(null);
                   setHoveredShopUnit(null);
                   setHoveredUnitId(unitId);
                   setPinnedUnitId((current) => (current === unitId ? null : unitId));
-                }}
-                onSellUnit={(unitId) => {
-                  sellUnit(unitId);
-                  setDraggedUnitId(null);
                 }}
                 onUnitDragStateChange={setDraggedUnitId}
                 opponentLabel={opponent?.name ?? game.round.enemyLabel}
@@ -289,64 +326,57 @@ function App() {
               />
             </div>
 
-            <BoardActionBar
-              onAdvanceRound={advanceRound}
-              onReset={resetGame}
-              onStartCombat={startCombat}
-              phase={game.phase}
-            />
-
-            <Bench
-              highlightedUnitIds={highlightedUnitIds}
-              onDropItemToUnit={(itemId, unitId) => {
-                equipItem(itemId, unitId);
-                setSelectedItemId(null);
-              }}
-              onDropUnit={(unitId, slotIndex) =>
-                moveUnit(unitId, {
-                  type: "bench",
-                  slotIndex,
-                })
-              }
-              onHoverUnit={(unitId) => {
-                if (pinnedUnitId) {
-                  return;
+            <div className="min-h-0">
+              <Bench
+                highlightedUnitIds={highlightedUnitIds}
+                onDropItemToUnit={(itemId, unitId) => {
+                  equipItem(itemId, unitId);
+                  setSelectedItemId(null);
+                }}
+                onDropUnit={(unitId, slotIndex) =>
+                  moveUnit(unitId, {
+                    type: "bench",
+                    slotIndex,
+                  })
                 }
+                onHoverUnit={(unitId) => {
+                  if (isInspectorPinned) {
+                    return;
+                  }
 
-                if (unitId) {
+                  if (unitId) {
+                    cancelInspectorClose();
+                    setHoveredShopUnit(null);
+                    setHoveredUnitId(unitId);
+                    return;
+                  }
+
+                  scheduleInspectorClose();
+                }}
+                onPinUnit={(unitId) => {
                   cancelInspectorClose();
+                  setPinnedShopUnit(null);
                   setHoveredShopUnit(null);
                   setHoveredUnitId(unitId);
-                  return;
-                }
-
-                scheduleInspectorClose();
-              }}
-              onSelectUnit={(unitId) => {
-                cancelInspectorClose();
-                setHoveredShopUnit(null);
-                setHoveredUnitId(unitId);
-                setPinnedUnitId((current) => (current === unitId ? null : unitId));
-              }}
-              onSellUnit={(unitId) => {
-                sellUnit(unitId);
-                setDraggedUnitId(null);
-              }}
-              onUnitDragStateChange={setDraggedUnitId}
-              phase={game.phase}
-              selectedItemId={selectedItemId}
-              slots={benchSlots}
-            />
+                  setPinnedUnitId((current) => (current === unitId ? null : unitId));
+                }}
+                onUnitDragStateChange={setDraggedUnitId}
+                phase={game.phase}
+                selectedItemId={selectedItemId}
+                slots={benchSlots}
+              />
+            </div>
 
             <Shop
               currentXp={player.experience.currentXp}
               gold={player.economy.gold}
               goldDelta={goldDelta}
               level={player.experience.level}
+              onAdvanceRound={advanceRound}
               onBuyExperience={buyExperience}
               onBuyUnit={buyUnit}
               onHoverUnit={(unit) => {
-                if (pinnedUnitId) {
+                if (isInspectorPinned) {
                   return;
                 }
 
@@ -359,11 +389,20 @@ function App() {
 
                 scheduleInspectorClose();
               }}
+              onPinUnit={(unit) => {
+                cancelInspectorClose();
+                setPinnedUnitId(null);
+                setHoveredUnitId(null);
+                setHoveredShopUnit(unit);
+                setPinnedShopUnit((current) => (current?.template.id === unit.template.id ? null : unit));
+              }}
               onReroll={rerollShop}
+              onReset={resetGame}
               onSellUnit={(unitId) => {
                 sellUnit(unitId);
-                setDraggedUnitId(null);
+                clearDragPreview();
               }}
+              onStartCombat={startCombat}
               phase={game.phase}
               sellPreview={sellPreview}
               shop={player.shop}
@@ -371,14 +410,14 @@ function App() {
             />
           </div>
 
-          <aside className="relative z-30 flex min-h-0 min-w-0 flex-col gap-2 overflow-visible">
+          <aside className="relative z-30 flex min-h-0 min-w-0 flex-col gap-1.25 overflow-visible xl:gap-1.5">
             <LobbyHealthPanel players={lobbyPlayers} />
             <UnitStatsPanel
               className="flex-1"
               equippedItemIds={hoveredUnitItems}
-              isPinned={Boolean(pinnedUnitId)}
+              isPinned={isInspectorPinned}
               onClearPin={() => {
-                setPinnedUnitId(null);
+                clearPinnedInspector();
                 clearInspectorPreview();
               }}
               onHoverChange={(isHovered) => {

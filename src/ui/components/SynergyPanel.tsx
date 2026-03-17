@@ -19,7 +19,7 @@ export function SynergyPanel({ activeSynergies }: SynergyPanelProps) {
   });
 
   return (
-    <section className="tft-surface relative overflow-visible rounded-[1.45rem] p-3">
+    <section className="tft-surface-muted relative overflow-visible rounded-[1.45rem] p-3">
       <div className="mb-2 flex items-center justify-between gap-2">
         <h2 className="tft-heading font-display text-base">Synergies</h2>
         <span className="rounded-full border border-emerald-300/20 bg-emerald-300/12 px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.16em] text-emerald-100">

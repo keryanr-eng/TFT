@@ -353,7 +353,7 @@ export function UnitStatsPanel({
 
   return (
     <section
-      className={clsx("tft-surface relative flex flex-col overflow-visible rounded-[1.25rem] p-2.5", className)}
+      className={clsx("tft-surface-muted relative flex flex-col overflow-visible rounded-[1.25rem] p-2.5", className)}
       data-inspector-panel="true"
       onMouseEnter={onHoverChange ? () => onHoverChange(true) : undefined}
       onMouseLeave={onHoverChange ? () => onHoverChange(false) : undefined}

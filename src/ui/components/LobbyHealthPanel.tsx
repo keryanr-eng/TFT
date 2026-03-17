@@ -13,7 +13,7 @@ interface LobbyHealthPanelProps {
 
 export function LobbyHealthPanel({ players }: LobbyHealthPanelProps) {
   return (
-    <section className="tft-surface rounded-[1.2rem] p-2.5">
+    <section className="tft-surface-muted rounded-[1.2rem] p-2.5">
       <div className="mb-2 flex items-center justify-between gap-2">
         <h2 className="tft-heading font-display text-sm">Lobby</h2>
         <span className="text-[9px] font-semibold uppercase tracking-[0.16em] text-slate-400">
